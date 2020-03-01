@@ -3,15 +3,28 @@ replicas: 1
 
 # Allows you to add any config files in /usr/share/logstash/config/
 # such as logstash.yml and log4j2.properties
-logstashConfig: {}
+#logstashConfig:
 #  logstash.yml: |
 #    key:
-#      nestedkey: value
+#     nestedkey: value
 #  log4j2.properties: |
 #    key = value
+logstashPipeline:
+   default.conf: |
+    input {
+      beats {
+        port => "55044"
+      }
+    }
+    filter {}
+    output {
+      stdout {
+        codec => json 
+      }
+    }
 
 # Allows you to add any pipeline files in /usr/share/logstash/pipeline/
-logstashPipeline: {}
+#logstashPipeline: {}
 #  uptime.conf: |
 #    input {
 #      exec {
@@ -185,14 +198,14 @@ lifecycle: {}
   #   exec:
   #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
-service: {}
-#  annotations: {}
-#  type: ClusterIP
-#  ports:
-#    - name: beats
-#      port: 5044
-#      protocol: TCP
-#      targetPort: 5044
+service:
+  annotations:
+  type: ClusterIP
+  ports:
+    - name: beats
+      port: 5044
+      protocol: TCP
+      targetPort: 55044
 #    - name: http
 #      port: 8080
 #      protocol: TCP
