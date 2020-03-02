@@ -1,10 +1,12 @@
 ---
-replicas: 2
+replicas: 1
 
 # Allows you to add any config files in /usr/share/logstash/config/
 # such as logstash.yml and log4j2.properties
-#logstashConfig:
+logstashConfig:
 #  logstash.yml: |
+#     log:
+#      level: debug
 #    xpack.monitoring.enabled: true
 #    xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch-master:9200"]
 #    key:
@@ -15,7 +17,15 @@ logstashPipeline:
    default.conf: |
     input {
       beats {
-        port => "55044"
+        port => "45044"
+      }
+      generator {
+        lines => [
+          "line 1",
+          "line 2",
+          "line 3"
+        ]
+        count => 3
       }
     }
     filter {}
@@ -211,7 +221,7 @@ service:
     - name: beats
       port: 5044
       protocol: TCP
-      targetPort: 55044
+      targetPort: 45044
 #    - name: http
 #      port: 8080
 #      protocol: TCP
