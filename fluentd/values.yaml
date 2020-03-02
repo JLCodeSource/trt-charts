@@ -10,10 +10,10 @@ image:
   #   - secret2
 
 output:
-  host: elasticsearch-client.default.svc.cluster.local
+  host: elasticsearch-master
   port: 9200
   scheme: http
-  sslVersion: TLSv1
+  #sslVersion: TLSv1
   buffer_chunk_limit: 2M
   buffer_queue_limit: 8
 
@@ -38,8 +38,8 @@ extraEnvVars:
 #     readOnly: true
 
 plugins:
-  enabled: false
-  pluginsList: []
+  enabled: true
+  pluginsList: [ "fluent-plugin-beats" ]
 
 service:
   annotations: {}
@@ -52,6 +52,9 @@ service:
     - name: "monitor-agent"
       protocol: TCP
       containerPort: 24220
+    - name: "beats"
+      protocol: TCP
+      containerPort: 5044
 
 metrics:
   enabled: false
@@ -112,6 +115,14 @@ configMaps:
       bind 0.0.0.0
       port 24220
       tag fluentd.monitor.metrics
+    </source>
+
+    # Used for beats
+    <source>
+      @type beats
+      metadata_as_tag
+      port 5044
+      bind 0.0.0.0
     </source>
   system.conf: |-
     <system>
