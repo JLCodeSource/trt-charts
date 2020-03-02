@@ -5,6 +5,8 @@ replicas: 2
 # such as logstash.yml and log4j2.properties
 #logstashConfig:
 #  logstash.yml: |
+#    xpack.monitoring.enabled: true
+#    xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch-master:9200"]
 #    key:
 #     nestedkey: value
 #  log4j2.properties: |
@@ -15,6 +17,14 @@ logstashPipeline:
       beats {
         port => "55044"
       }
+      generator {
+        lines => [
+          "line 1",
+          "line 2",
+          "line 3"
+        ]
+        count => 3
+      }
     }
     filter {}
     output {
@@ -24,9 +34,6 @@ logstashPipeline:
       elasticsearch {
         hosts => ["http://elasticsearch-master:9200"]
         index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
-      }
-      stdout {
-        codec => json 
       }
     }
 
@@ -51,7 +58,7 @@ extraEnvs: []
 # A list of secrets and their paths to mount inside the pod
 secretMounts: []
 
-image: "docker.elastic.co/logstash/logstash"
+image: "docker.elastic.co/logstash/logstash-oss"
 imageTag: "7.5.2"
 imagePullPolicy: "IfNotPresent"
 imagePullSecrets: []
