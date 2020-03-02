@@ -17,14 +17,6 @@ logstashPipeline:
       beats {
         port => "55044"
       }
-      generator {
-        lines => [
-          "line 1",
-          "line 2",
-          "line 3"
-        ]
-        count => 3
-      }
     }
     filter {}
     output {
