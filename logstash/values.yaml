@@ -222,18 +222,18 @@ lifecycle: {}
   #   exec:
   #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
-ingress:
-   enabled: false
-   annotations: {}
-#     kubernetes.io/ingress.class: nginx
-#     cert-manager.io/cluster-issuer: "letsencrypt-staging"
-   path: /
-   hosts:
-#     - logstash.tf-support.com
-   tls: []
-#     - secretName: logstash-tf-support-tls
-#       hosts:
-#         - logstash.tf-support.com
+# ingress:
+#    enabled: false
+#    annotations: {}
+# #     kubernetes.io/ingress.class: nginx
+# #     cert-manager.io/cluster-issuer: "letsencrypt-staging"
+#    path: /
+#    hosts:
+# #     - logstash.tf-support.com
+#    tls: []
+# #     - secretName: logstash-tf-support-tls
+# #       hosts:
+# #         - logstash.tf-support.com
 
 service:
   annotations:
