@@ -1,0 +1,6 @@
+secretGenerator:
+- name: ca-key-pair
+  namespace: cert-manager
+  files:
+  - myCA.pem
+  - myCA.key
