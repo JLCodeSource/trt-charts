@@ -18,7 +18,7 @@ logstashPipeline:
     input {
       beats {
         port => "45044"
-        ssl => true
+        ssl => false
         ssl_certificate_authorities => ["/usr/share/logstash/config/certs/ca.crt"]
         ssl_certificate => "/usr/share/logstash/config/certs/tls.crt"
         ssl_key => "/usr/share/logstash/config/certs/tls.key"
@@ -69,7 +69,7 @@ secretMounts:
     path: /usr/share/logstash/config/certs
 
 image: "docker.elastic.co/logstash/logstash-oss"
-imageTag: "7.5.2"
+imageTag: "7.6.0"
 imagePullPolicy: "IfNotPresent"
 imagePullSecrets: []
 
@@ -237,10 +237,10 @@ lifecycle: {}
 
 service:
   annotations:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: beats
-      port: 443
+      port: 5044
       protocol: TCP
       targetPort: 45044
 #    - name: http
